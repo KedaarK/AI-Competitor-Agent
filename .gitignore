@@ -1,0 +1,14 @@
+# Ignore the virtual environment
+venv/
+.venv/
+env/
+
+# Ignore Python cache
+__pycache__/
+*.py[cod]
+
+# Ignore environment variables (Secrets)
+.env
+
+# Ignore the local database (so you don't upload MBs of data)
+data/chroma_db/
