@@ -6,6 +6,15 @@ from playwright_stealth.stealth import Stealth
 
 stealth = Stealth()
 
+def parse_metrics(metric_string):
+    """Converts '1.2M views' into 1200000 for the Analyst to use."""
+    metric_string = metric_string.lower()
+    if 'k' in metric_string:
+        return float(metric_string.replace('k', '').split()[0]) * 1000
+    if 'm' in metric_string:
+        return float(metric_string.replace('m', '').split()[0]) * 1000000
+    return metric_string
+
 
 def scrape_social_post(url: str):
     with sync_playwright() as p:
@@ -42,7 +51,24 @@ def scrape_social_post(url: str):
 
             # Platform Detection (Keep your elif logic here)
             if "youtube.com" in url:
-                content = page.locator("#video-title, #description-text").all_inner_texts()
+                # 1. Target the entire video card instead of just the title
+                video_cards = page.locator("ytd-rich-grid-media").all()
+                results = []
+
+                for card in video_cards[:10]:
+                    try:
+                        title = card.locator("#video-title").inner_text().strip()
+                        raw_meta = card.locator("#metadata-line").inner_text().replace("\n", " ").strip()
+                        
+                        # Extract and parse numeric views
+                        views_part = raw_meta.split('•')[0] if '•' in raw_meta else raw_meta
+                        views_count = parse_metrics(views_part)
+                        
+                        results.append(f"VIDEO: {title} | VIEWS: {views_count} | INFO: {raw_meta}")
+                    except:
+                        continue
+                content = results
+
             elif "twitter.com" in url or "x.com" in url:
                 content = page.locator("article div[lang]").all_inner_texts()
             else:

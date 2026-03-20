@@ -34,5 +34,5 @@ researcher_agent = Agent(
     llm=groq_llm,
     verbose=True,
     allow_delegation=False,
-    max_iter=3 # Prevents infinite loops if tool calling fails
+    max_iter=1 # Prevents infinite loops if tool calling fails
 )

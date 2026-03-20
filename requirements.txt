@@ -9,3 +9,6 @@ schedule
 python-dotenv
 litellm
 playwright-stealth
+sentence-transformers
+fastapi 
+uvicorn
