@@ -8,3 +8,4 @@ python-dotenv
 schedule
 python-dotenv
 litellm
+playwright-stealth

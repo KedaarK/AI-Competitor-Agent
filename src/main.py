@@ -25,7 +25,7 @@ def run_competitor_check(competitor_name, url):
     })
 
 if __name__ == "__main__":
-    result = run_competitor_check("Nike", "https://twitter.com/Nike")
+    result = run_competitor_check("Nike", "https://www.youtube.com/@nike/videos")
     print("\n\n########################")
     print("## AGENT FINAL REPORT ##")
     print("########################\n")
